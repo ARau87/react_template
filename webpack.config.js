@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: [
@@ -11,15 +12,24 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-          presets: ['es2015', 'react']
+          presets: ['env', 'react']
         }
+      },
+      {
+        test: /\.html$/,
+        loader: 'raw-loader'
       }
     ]
-  }
+  },
+  plugins : [
+    new CopyWebpackPlugin([
+        {from: 'src/assets', to: 'assets'}
+    ])
+  ]
 }
